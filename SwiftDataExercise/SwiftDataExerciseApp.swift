@@ -14,7 +14,7 @@ struct SwiftDataExerciseApp: App {
     
     init() {
         do {
-            container = try ModelContainer(for: Book.self, Friend.self, LoanRecord.self)
+            container = try ModelContainer(for: Book.self, LoanRecord.self)
         } catch {
             fatalError("Failed to initialize ModelContainer: \(error)")
         }
