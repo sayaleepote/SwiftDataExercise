@@ -8,7 +8,7 @@ struct LoanRecordsView: View {
     @State private var sortOrder: SortOrder = .dateLoaned
     
     enum SortOrder {
-        case bookName, friendName, dateLoaned, dateReturned
+        case bookName, friendName, dateLoaned
     }
     
     var sortedRecords: [LoanRecord] {
@@ -19,10 +19,6 @@ struct LoanRecordsView: View {
             return loanRecords.sorted { $0.friend.name < $1.friend.name }
         case .dateLoaned:
             return loanRecords.sorted { $0.dateLoaned > $1.dateLoaned }
-        case .dateReturned:
-            return loanRecords.sorted { 
-                ($0.dateReturned ?? .distantFuture) > ($1.dateReturned ?? .distantFuture)
-            }
         }
     }
     
@@ -41,7 +37,6 @@ struct LoanRecordsView: View {
                         Button("Sort by Book", action: { sortOrder = .bookName })
                         Button("Sort by Friend", action: { sortOrder = .friendName })
                         Button("Sort by Date Loaned", action: { sortOrder = .dateLoaned })
-                        Button("Sort by Date Returned", action: { sortOrder = .dateReturned })
                     } label: {
                         Label("Sort", systemImage: "arrow.up.arrow.down")
                     }
@@ -78,10 +73,6 @@ struct LoanRecordRow: View {
                 .font(.subheadline)
             Text("Loaned: \(record.dateLoaned.formatted(date: .abbreviated, time: .shortened))")
                 .font(.caption)
-            if let returned = record.dateReturned {
-                Text("Returned: \(returned.formatted(date: .abbreviated, time: .shortened))")
-                    .font(.caption)
-            }
         }
     }
 } 

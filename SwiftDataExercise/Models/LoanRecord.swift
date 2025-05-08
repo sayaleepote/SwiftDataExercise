@@ -4,7 +4,6 @@ import SwiftData
 @Model
 final class LoanRecord {
     var dateLoaned: Date
-    var dateReturned: Date?
     
     @Relationship(deleteRule: .deny)
     var book: Book
@@ -12,10 +11,9 @@ final class LoanRecord {
     @Relationship(deleteRule: .deny)
     var friend: Friend
     
-    init(book: Book, friend: Friend, dateLoaned: Date = Date(), dateReturned: Date? = nil) {
+    init(book: Book, friend: Friend, dateLoaned: Date = Date()) {
         self.book = book
         self.friend = friend
         self.dateLoaned = dateLoaned
-        self.dateReturned = dateReturned
     }
 } 
