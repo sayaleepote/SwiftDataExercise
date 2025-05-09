@@ -6,8 +6,10 @@ struct AddLoanRecordView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Query private var books: [Book]
+    @Query private var friends: [Friend]
     
     @State private var selectedBook: Book?
+    @State private var selectedFriend: Friend?
     @State private var dateLoaned = Date()
     
     var body: some View {
@@ -17,6 +19,13 @@ struct AddLoanRecordView: View {
                     Text("Select a book").tag(nil as Book?)
                     ForEach(books) { book in
                         Text(book.title).tag(book as Book?)
+                    }
+                }
+                
+                Picker("Friend", selection: $selectedFriend) {
+                    Text("Select a friend").tag(nil as Friend?)
+                    ForEach(friends) { friend in
+                        Text(friend.name).tag(friend as Friend?)
                     }
                 }
                 
@@ -32,13 +41,13 @@ struct AddLoanRecordView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
-                        if let book = selectedBook{
-                            let record = LoanRecord(book: book, dateLoaned: dateLoaned)
+                        if let book = selectedBook, let friend = selectedFriend {
+                            let record = LoanRecord(book: book, friend: friend, dateLoaned: dateLoaned)
                             modelContext.insert(record)
                             dismiss()
                         }
                     }
-                    .disabled(selectedBook == nil)
+                    .disabled(selectedBook == nil || selectedFriend == nil)
                 }
             }
         }

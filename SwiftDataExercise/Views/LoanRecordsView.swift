@@ -8,13 +8,15 @@ struct LoanRecordsView: View {
     @State private var sortOrder: SortOrder = .dateLoaned
     
     enum SortOrder {
-        case bookName, dateLoaned
+        case bookName, friendName, dateLoaned
     }
     
     var sortedRecords: [LoanRecord] {
         switch sortOrder {
         case .bookName:
             return loanRecords.sorted { $0.book.title < $1.book.title }
+        case .friendName:
+            return loanRecords.sorted { $0.friend.name < $1.friend.name }
         case .dateLoaned:
             return loanRecords.sorted { $0.dateLoaned > $1.dateLoaned }
         }
@@ -33,6 +35,7 @@ struct LoanRecordsView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Button("Sort by Book", action: { sortOrder = .bookName })
+                        Button("Sort by Friend", action: { sortOrder = .friendName })
                         Button("Sort by Date Loaned", action: { sortOrder = .dateLoaned })
                     } label: {
                         Label("Sort", systemImage: "arrow.up.arrow.down")
@@ -66,6 +69,8 @@ struct LoanRecordRow: View {
         VStack(alignment: .leading) {
             Text(record.book.title)
                 .font(.headline)
+            Text("Lent to: \(record.friend.name)")
+                .font(.subheadline)
             Text("Loaned: \(record.dateLoaned.formatted(date: .abbreviated, time: .shortened))")
                 .font(.caption)
         }

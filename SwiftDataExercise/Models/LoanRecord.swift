@@ -7,10 +7,13 @@ final class LoanRecord {
     
     @Relationship(deleteRule: .deny)
     var book: Book
-
     
-    init(book: Book, dateLoaned: Date = Date()) {
+    @Relationship(deleteRule: .deny)
+    var friend: Friend
+    
+    init(book: Book, friend: Friend, dateLoaned: Date = Date()) {
         self.book = book
+        self.friend = friend
         self.dateLoaned = dateLoaned
     }
 } 
